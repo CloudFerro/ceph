@@ -1583,6 +1583,15 @@ version_t OSDMonitor::get_trim_to()
     }
     floor = mon->pgservice->get_min_last_epoch_clean();
   }
+
+  if (g_conf->get_val<bool>("mon_debug_block_osdmap_trim")) {
+    dout(0) << __func__
+            << " blocking osdmap trim"
+               " ('mon_debug_block_osdmap_trim' set to 'true')"
+            << dendl;
+    return 0;
+  }
+
   {
     dout(10) << " min_last_epoch_clean " << floor << dendl;
     if (g_conf->mon_osd_force_trim_to > 0 &&
