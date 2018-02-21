@@ -75,7 +75,7 @@ function test_mon_osdmap_prune() {
   create_pool foo 32
   wait_for_clean || return 1
 
-  ceph config set mon mon_debug_block_osdmap_trim true || return 1
+#  ceph config set mon mon_debug_block_osdmap_trim true || return 1
 
   generate_osdmaps 500 || return 1
 

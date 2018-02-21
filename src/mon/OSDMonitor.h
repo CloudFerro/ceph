@@ -177,14 +177,14 @@ struct osdmap_manifest_t {
   void encode(bufferlist& bl) const
   {
     ENCODE_START(1, 1, bl);
-    encode(pinned, bl);
+    ::encode(pinned, bl);
     ENCODE_FINISH(bl);
   }
 
   void decode(bufferlist::iterator& bl)
   {
     DECODE_START(1, bl);
-    decode(pinned, bl);
+    ::decode(pinned, bl);
     DECODE_FINISH(bl);
   }
 

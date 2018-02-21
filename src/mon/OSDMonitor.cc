@@ -1650,6 +1650,11 @@ void OSDMonitor::load_osdmap_manifest()
   bool store_has_manifest =
     mon->store->exists(get_service_name(), "osdmap_manifest");
 
+  dout(10) << __func__ << "XXXX"
+	   << "var store_has_manifest = " << store_has_manifest << dendl;
+  dout(10) << __func__ << "XXXX"
+	   << "var has_osdmap_manifest = " << has_osdmap_manifest << dendl;
+
   if (!store_has_manifest) {
     if (!has_osdmap_manifest) {
       return;
