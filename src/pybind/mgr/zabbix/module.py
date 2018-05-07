@@ -54,7 +54,8 @@ class Module(MgrModule):
         'zabbix_sender': '/usr/bin/zabbix_sender',
         'zabbix_host': None,
         'zabbix_port': 10051,
-        'identifier': None, 'interval': 60
+        'identifier': None, 'interval': 60,
+        'extended' : False
     }
 
     COMMANDS = [
@@ -149,6 +150,7 @@ class Module(MgrModule):
         data['rd_bytes'] = rd_bytes
 
         osd_map = self.get('osd_map')
+        self.log.debug('XELEXIN OSD_MAP: %s', osd_map)
         data['num_osd'] = len(osd_map['osds'])
         data['osd_nearfull_ratio'] = osd_map['nearfull_ratio']
         data['osd_full_ratio'] = osd_map['full_ratio']
