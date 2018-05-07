@@ -150,7 +150,6 @@ class Module(MgrModule):
         data['rd_bytes'] = rd_bytes
 
         osd_map = self.get('osd_map')
-        self.log.debug('XELEXIN OSD_MAP: %s', osd_map)
         data['num_osd'] = len(osd_map['osds'])
         data['osd_nearfull_ratio'] = osd_map['nearfull_ratio']
         data['osd_full_ratio'] = osd_map['full_ratio']
@@ -173,16 +172,20 @@ class Module(MgrModule):
         osd_fill = list()
         osd_apply_latency = list()
         osd_commit_latency = list()
-
+        osd_usage = dict()
         osd_stats = self.get('osd_stats')
+        self.log.debug('XELEXIN OSD_STATS: %s', osd_stats)
+
         for osd in osd_stats['osd_stats']:
             if osd['kb'] == 0:
                 continue
+            osd_usage[osd['osd']] = (float(osd['kb_used']) / float(osd['kb'])) * 100
             osd_fill.append((float(osd['kb_used']) / float(osd['kb'])) * 100)
             osd_apply_latency.append(osd['perf_stat']['apply_latency_ms'])
             osd_commit_latency.append(osd['perf_stat']['commit_latency_ms'])
 
         try:
+            data['osd_usage'] = osd_usage
             data['osd_max_fill'] = max(osd_fill)
             data['osd_min_fill'] = min(osd_fill)
             data['osd_avg_fill'] = avg(osd_fill)
