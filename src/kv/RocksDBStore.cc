@@ -829,6 +829,7 @@ void RocksDBStore::compact()
 {
   logger->inc(l_rocksdb_compact);
   rocksdb::CompactRangeOptions options;
+  options.change_level=true;
   db->CompactRange(options, nullptr, nullptr);
 }
 
@@ -906,6 +907,7 @@ void RocksDBStore::compact_range(const string& start, const string& end)
   rocksdb::CompactRangeOptions options;
   rocksdb::Slice cstart(start);
   rocksdb::Slice cend(end);
+  options.change_level=true;
   db->CompactRange(options, &cstart, &cend);
 }
 RocksDBStore::RocksDBWholeSpaceIteratorImpl::~RocksDBWholeSpaceIteratorImpl()
