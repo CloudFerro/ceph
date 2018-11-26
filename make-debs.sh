@@ -72,6 +72,8 @@ fi
 if test $NPROC -gt 1 ; then
     j=-j${NPROC}
 fi
+# wlaczenie kompresji snappy w rocksdb
+sed -i 's/option(WITH_SNAPPY "build with SNAPPY" OFF)/option(WITH_SNAPPY "build with SNAPPY" ON)/g' src/rocksdb/CMakeLists.txt
 PATH=/usr/lib/ccache:$PATH dpkg-buildpackage $j -uc -us
 cd ../..
 mkdir -p $codename/conf

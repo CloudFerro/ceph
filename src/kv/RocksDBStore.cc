@@ -157,7 +157,7 @@ static int string2bool(const string &val, bool &b_val)
     return 0;
   }
 }
-  
+
 int RocksDBStore::tryInterpret(const string &key, const string &val, rocksdb::Options &opt)
 {
   if (key == "compaction_threads") {
@@ -198,7 +198,7 @@ int RocksDBStore::ParseOptionsFromString(const string &opt_str, rocksdb::Options
   map<string, string>::iterator it;
   for(it = str_map.begin(); it != str_map.end(); ++it) {
     string this_opt = it->first + "=" + it->second;
-    rocksdb::Status status = rocksdb::GetOptionsFromString(opt, this_opt , &opt); 
+    rocksdb::Status status = rocksdb::GetOptionsFromString(opt, this_opt , &opt);
     if (!status.ok()) {
       //unrecognized by rocksdb, try to interpret by ourselves.
       r = tryInterpret(it->first, it->second, opt);
@@ -342,14 +342,14 @@ int RocksDBStore::do_open(ostream &out, bool create_if_missing)
     bbt_opts.index_type = rocksdb::BlockBasedTableOptions::IndexType::kHashSearch;
   if (g_conf->get_val<std::string>("rocksdb_index_type") == "two_level")
     bbt_opts.index_type = rocksdb::BlockBasedTableOptions::IndexType::kTwoLevelIndexSearch;
-  bbt_opts.cache_index_and_filter_blocks = 
+  bbt_opts.cache_index_and_filter_blocks =
       g_conf->get_val<bool>("rocksdb_cache_index_and_filter_blocks");
-  bbt_opts.cache_index_and_filter_blocks_with_high_priority = 
+  bbt_opts.cache_index_and_filter_blocks_with_high_priority =
       g_conf->get_val<bool>("rocksdb_cache_index_and_filter_blocks_with_high_priority");
   bbt_opts.partition_filters = g_conf->get_val<bool>("rocksdb_partition_filters");
   if (g_conf->get_val<uint64_t>("rocksdb_metadata_block_size") > 0)
     bbt_opts.metadata_block_size = g_conf->get_val<uint64_t>("rocksdb_metadata_block_size");
-  bbt_opts.pin_l0_filter_and_index_blocks_in_cache = 
+  bbt_opts.pin_l0_filter_and_index_blocks_in_cache =
       g_conf->get_val<bool>("rocksdb_pin_l0_filter_and_index_blocks_in_cache");
 
   opt.table_factory.reset(rocksdb::NewBlockBasedTableFactory(bbt_opts));
@@ -367,7 +367,7 @@ int RocksDBStore::do_open(ostream &out, bool create_if_missing)
     derr << status.ToString() << dendl;
     return -EINVAL;
   }
-  
+
   PerfCountersBuilder plb(g_ceph_context, "rocksdb", l_rocksdb_first, l_rocksdb_last);
   plb.add_u64_counter(l_rocksdb_gets, "get", "Gets");
   plb.add_u64_counter(l_rocksdb_txns, "submit_transaction", "Submit transactions");
@@ -382,7 +382,7 @@ int RocksDBStore::do_open(ostream &out, bool create_if_missing)
   plb.add_time_avg(l_rocksdb_write_wal_time, "rocksdb_write_wal_time", "Rocksdb write wal time");
   plb.add_time_avg(l_rocksdb_write_memtable_time, "rocksdb_write_memtable_time", "Rocksdb write memtable time");
   plb.add_time_avg(l_rocksdb_write_delay_time, "rocksdb_write_delay_time", "Rocksdb write delay time");
-  plb.add_time_avg(l_rocksdb_write_pre_and_post_process_time, 
+  plb.add_time_avg(l_rocksdb_write_pre_and_post_process_time,
       "rocksdb_write_pre_and_post_time", "total time spent on writing a record, excluding write process");
   logger = plb.create_perf_counters();
   cct->get_perfcounters_collection()->add(logger);
@@ -516,7 +516,7 @@ int RocksDBStore::submit_transaction(KeyValueDB::Transaction t)
   RocksWBHandler bat_txc;
   _t->bat.Iterate(&bat_txc);
   *_dout << " Rocksdb transaction: " << bat_txc.seen << dendl;
-  
+
   rocksdb::Status s = db->Write(woptions, &_t->bat);
   if (!s.ok()) {
     RocksWBHandler rocks_txc;
@@ -808,7 +808,7 @@ int RocksDBStore::get(
 int RocksDBStore::split_key(rocksdb::Slice in, string *prefix, string *key)
 {
   size_t prefix_len = 0;
-  
+
   // Find separator inside Slice
   char* separator = (char*) memchr(in.data(), 0, in.size());
   if (separator == NULL)
@@ -829,6 +829,7 @@ void RocksDBStore::compact()
 {
   logger->inc(l_rocksdb_compact);
   rocksdb::CompactRangeOptions options;
+	options.change_level=true;
   db->CompactRange(options, nullptr, nullptr);
 }
 
@@ -906,6 +907,7 @@ void RocksDBStore::compact_range(const string& start, const string& end)
   rocksdb::CompactRangeOptions options;
   rocksdb::Slice cstart(start);
   rocksdb::Slice cend(end);
+	options.change_level=true;
   db->CompactRange(options, &cstart, &cend);
 }
 RocksDBStore::RocksDBWholeSpaceIteratorImpl::~RocksDBWholeSpaceIteratorImpl()
@@ -1042,4 +1044,3 @@ RocksDBStore::WholeSpaceIterator RocksDBStore::_get_iterator()
   return std::make_shared<RocksDBWholeSpaceIteratorImpl>(
         db->NewIterator(rocksdb::ReadOptions()));
 }
-
