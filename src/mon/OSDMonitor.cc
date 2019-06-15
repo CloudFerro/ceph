@@ -3733,8 +3733,9 @@ int OSDMonitor::get_full_from_pinned_map(version_t ver, bufferlist& bl)
   // get osdmap incremental maps and apply on top of this one.
   bufferlist osdm_bl;
   bool has_cached_osdmap = false;
+  uint64_t significant_features = OSDMap::get_significant_features(mon->get_quorum_con_features());
   for (version_t v = ver-1; v >= closest_pinned; --v) {
-    if (full_osd_cache.lookup(v, &osdm_bl)) {
+    if (full_osd_cache.lookup({ver, significant_features}, &osdm_bl)) {
       dout(10) << __func__ << " found map in cache ver " << v << dendl;
       closest_pinned = v;
       has_cached_osdmap = true;
