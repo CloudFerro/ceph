@@ -582,6 +582,7 @@ function run_osd() {
     local ceph_disk_args
     ceph_disk_args+=" --statedir=$dir"
     ceph_disk_args+=" --sysconfdir=$dir"
+    ceph_disk_args+=" --setuser=root"
     ceph_disk_args+=" --prepend-to-path="
 
     mkdir -p $osd_data
@@ -720,6 +721,7 @@ function activate_osd() {
     local ceph_disk_args
     ceph_disk_args+=" --statedir=$dir"
     ceph_disk_args+=" --sysconfdir=$dir"
+    ceph_disk_args+=" --setuser=root"
     ceph_disk_args+=" --prepend-to-path="
 
     local ceph_args="$CEPH_ARGS"
