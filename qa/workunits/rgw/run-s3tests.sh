@@ -28,8 +28,7 @@ cd $dir
 git clone https://github.com/ceph/s3-tests
 cd s3-tests
 git checkout ceph-$branch
-VIRTUALENV_PYTHON=/usr/bin/python2 ./bootstrap
-cd ../..
+VIRTUALENV_PYTHON=/usr/bin/python3 ./bootstrap
 
 # users
 akey1=access1
