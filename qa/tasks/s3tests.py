@@ -261,7 +261,8 @@ def run_tests(ctx, config):
         else:
             args += ['REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt']
         args += [
-            '{tdir}/s3-tests/virtualenv/bin/nosetests'.format(tdir=testdir),
+            '{tdir}/s3-tests/virtualenv/bin/python'.format(tdir=testdir),
+            '-m', 'nose',
             '-w',
             '{tdir}/s3-tests'.format(tdir=testdir),
             '-v',
