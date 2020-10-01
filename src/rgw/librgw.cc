@@ -194,7 +194,7 @@ namespace rgw {
     dout(1) << "====== " << __func__
 	    << " starting new request req=" << hex << req << dec
 	    << " ======" << dendl;
-
+    dout(1) << "XXXX tu za startem " << req->user->display_name << " pyta o " << s->info.request_uri<<  dendl;
     /*
      * invariant: valid requests are derived from RGWOp--well-formed
      * requests should have assigned RGWRequest::op in their descendant
@@ -269,7 +269,6 @@ namespace rgw {
     if (! s->auth.identity) {
       s->auth.identity = rgw::auth::transform_old_authinfo(s);
     }
-
     req->log(s, "reading op permissions");
     ret = req->read_permissions(op);
     if (ret < 0) {
@@ -310,7 +309,7 @@ namespace rgw {
       abort_req(s, op, ret);
       goto done;
     }
-
+    dout(1) << "XXXX" << req->user->display_name << " pyta o " << s->info.request_uri <<" request_method " << s->info.method   << " op_type " << op->get_type() <<  dendl;
     req->log(s, "executing");
     op->pre_exec();
     op->execute();
