@@ -948,7 +948,7 @@ int RGWGetObj::verify_permission()
 {
   obj = rgw_obj(s->bucket, s->object);
   store->set_atomic(s->obj_ctx, obj);
-  if (get_data) {
+  if (prefetch_data()) {
     store->set_prefetch_data(s->obj_ctx, obj);
   }
 
