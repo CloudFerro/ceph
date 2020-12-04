@@ -181,7 +181,7 @@ else(ENABLE_SHARED)
 endif(ENABLE_SHARED)
 set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_SHARED})
 
-option(WITH_STATIC_LIBSTDCXX "Link against libstdc++ statically" OFF)
+option(WITH_STATIC_LIBSTDCXX "Link against libstdc++ statically" ON)
 if(WITH_STATIC_LIBSTDCXX)
   if(CMAKE_COMPILER_IS_GNUCXX)
     set(static_linker_flags "-static-libstdc++ -static-libgcc")
