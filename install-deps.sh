@@ -286,7 +286,7 @@ else
                 ;;
             *Xenial*)
                 ensure_decent_gcc_on_ubuntu 8 xenial
-                install_boost_on_ubuntu xenial
+                #install_boost_on_ubuntu xenial
                 ;;
             *Bionic*)
                 install_boost_on_ubuntu bionic

@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 if [ ! -d .git ]; then
     echo "no .git present.  run this from the base dir of the git checkout."
@@ -88,7 +88,7 @@ build_dashboard_frontend() {
   [ -z "$MAX_DASHBOARD_PARALLEL_BUILDS" ] && MAX_DASHBOARD_PARALLEL_BUILDS=2
 
   . $TEMP_DIR/bin/activate
-  npm ci
+  npm ci --unsafe-perm
   echo "Building ceph-dashboard frontend with build${BUILD_TARGET} script";
   # we need to use "-- --" because so that "--prod" survives accross all
   # scripts redirections inside package.json
