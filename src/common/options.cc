@@ -4872,6 +4872,16 @@ std::vector<Option> get_global_options() {
     .set_default(0)
     .set_description(""),
 
+    Option("bluestore_debug_max_cached_onodes", Option::TYPE_INT, Option::LEVEL_DEV)
+    .set_default(0)
+    .set_description("This allows to explicitly cap number of onode entries per cache shard "
+                     "effectively bypassing all the smart but indirect cache adjustment logic."
+                     " Intended for testing purposes only "),
+                     
+    Option("bluestore_debug_too_many_blobs_threshold", Option::TYPE_INT, Option::LEVEL_DEV)
+    .set_default(24*1024)
+    .set_description(""),
+
     Option("bluestore_debug_freelist", Option::TYPE_BOOL, Option::LEVEL_DEV)
     .set_default(false)
     .set_description(""),
