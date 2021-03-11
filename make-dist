@@ -6,7 +6,7 @@ if [ ! -d .git ]; then
 fi
 
 version=$1
-[ -z "$version" ] && version=`git describe --match 'v*' | sed 's/^v//'`
+[ -z "$version" ] && version=`git describe --match 'v*' | sed 's/^v//' | sed 's/-\(xenial\|bionic\|focal\)//'`
 outfile="ceph-$version"
 
 echo "version $version"
