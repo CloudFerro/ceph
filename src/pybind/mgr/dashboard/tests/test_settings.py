@@ -16,6 +16,7 @@ class SettingsTest(unittest.TestCase, KVStoreMockMixin):
         settings.Options.GRAFANA_API_HOST = ('localhost', str)
         settings.Options.GRAFANA_API_PORT = (3000, int)
         settings.Options.GRAFANA_ENABLED = (False, bool)
+        # pylint: disable=protected-access
         settings._OPTIONS_COMMAND_MAP = settings._options_command_map()
 
     def setUp(self):
@@ -99,7 +100,6 @@ class SettingsControllerTest(ControllerTestCase, KVStoreMockMixin):
     @classmethod
     def setup_server(cls):
         # pylint: disable=protected-access
-
         SettingsController._cp_config['tools.authenticate.on'] = False
         cls.setup_controllers([SettingsController])
 

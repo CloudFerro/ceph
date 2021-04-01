@@ -317,7 +317,7 @@ class RgwClient(RestClient):
 
     @RestClient.api_get('/{admin_path}/metadata/user?myself',
                         resp_structure='data > user_id')
-    def _get_user_id(self, admin_path, request=None):
+    def _get_user_id(self, admin_path, request=None):  # pylint: disable=unused-argument
         # pylint: disable=unused-argument
         """
         Get the user ID of the user that is used to communicate with the

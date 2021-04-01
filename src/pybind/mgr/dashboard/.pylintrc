@@ -118,7 +118,11 @@ disable=import-star-module-level,
         too-many-arguments,
         too-many-locals,
         too-many-statements,
-        useless-object-inheritance
+        useless-object-inheritance,
+	multiple-statements,
+	unused-argument,
+	wrong-import-order,
+	protected-access
 
 
 # Enable the message, report, category or checker with the given id(s). You can

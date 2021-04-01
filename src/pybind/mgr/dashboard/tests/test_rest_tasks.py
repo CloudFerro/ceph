@@ -50,7 +50,8 @@ class TaskControllerTest(ControllerTestCase):
         # pylint: disable=protected-access
         NotificationQueue.start_queue()
         TaskManager.init()
-        TaskTest._cp_config['tools.authenticate.on'] = False
+        TaskTest._cp_config['tools.authenticate.on'] = False  # pylint: disable=protected-access
+        # pylint: disable=protected-access
         TaskController._cp_config['tools.authenticate.on'] = False
         cls.setup_controllers([TaskTest, TaskController])
 
