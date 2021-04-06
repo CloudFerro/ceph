@@ -411,7 +411,10 @@ class Module(MgrModule):
             # anonymize the smartctl report itself
             serial = devid.rsplit('_', 1)[1]
             m_str = json.dumps(m)
-            m = json.loads(m_str.replace(serial, 'deleted'))
+            if len(m_str) > 0:
+                m = json.loads(m_str.replace(serial, 'deleted'))
+            else:
+                m = ""
 
             if anon_host not in res:
                 res[anon_host] = {}
